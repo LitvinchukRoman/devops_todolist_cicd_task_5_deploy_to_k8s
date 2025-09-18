@@ -14,6 +14,9 @@ on:
       helm-values-path:
         type: string
         default: './todoapp/values.yaml'
+      helm-release-name:
+        type: string
+        default: 'todoapp'
 jobs:
     deploy-to-k8s:
       name: Deploy to K8s
@@ -48,7 +51,7 @@ jobs:
 
       - name: Deploy Helm
         run: |
-          helm upgrade --install --atomic --wait --timeout 3600s --debug todoapp ./todoapp-*.tgz \
+          helm upgrade --install --atomic --wait --timeout 3600s --debug ${{ inputs.helm-release-name }} ./todoapp-*.tgz \
             -f ${{ inputs.helm-values-path}} \
             --set mysql.secrets.MYSQL_ROOT_PASSWORD="${{ secrets.MYSQL_ROOT_PASSWORD }}" \
             --set mysql.secrets.MYSQL_USER="${{ secrets.MYSQL_USER }}" \
