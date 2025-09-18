@@ -54,6 +54,7 @@ jobs:
           helm upgrade --install --atomic --wait --timeout 3600s --debug ${{ inputs.helm-release-name }} ./todoapp-*.tgz \
             --dry-run \
             --debug \
+            --namespace temp-namespace \
             -f ${{ inputs.helm-values-path}} \
             --set mysql.secrets.MYSQL_ROOT_PASSWORD="${{ secrets.MYSQL_ROOT_PASSWORD }}" \
             --set mysql.secrets.MYSQL_USER="${{ secrets.MYSQL_USER }}" \
