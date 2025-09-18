@@ -51,7 +51,7 @@ jobs:
 
       - name: Helm Dry Run / Validate
         run: |
-          helm install todoapp-staging ./todoapp-*.tgz \
+          helm upgrade --install --atomic --wait --timeout 3600s --debug ${{ inputs.helm-release-name }} ./todoapp-*.tgz \
             --dry-run \
             --debug \
             -f ${{ inputs.helm-values-path }} \
