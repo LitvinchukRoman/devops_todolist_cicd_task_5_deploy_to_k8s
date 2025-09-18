@@ -51,20 +51,9 @@ jobs:
 
       - name: Helm Dry Run / Validate
         run: |
-          helm upgrade --install --atomic --wait --timeout 3600s --debug ${{ inputs.helm-release-name }} ./todoapp-*.tgz \
-            --dry-run \
-            --debug \
-            --namespace temp-namespace \
-            -f ${{ inputs.helm-values-path}} \
-            --set mysql.secrets.MYSQL_ROOT_PASSWORD="${{ secrets.MYSQL_ROOT_PASSWORD }}" \
-            --set mysql.secrets.MYSQL_USER="${{ secrets.MYSQL_USER }}" \
-            --set mysql.secrets.MYSQL_PASSWORD="${{ secrets.MYSQL_PASSWORD }}" \
-            --set todoapp.secrets.SECRET_KEY="${{ secrets.SECRET_KEY }}" \
-            --set todoapp.secrets.DB_NAME="${{ secrets.DB_NAME }}" \
-            --set todoapp.secrets.DB_USER="${{ secrets.DB_USER }}" \
-            --set todoapp.secrets.DB_PASSWORD="${{ secrets.DB_PASSWORD }}" \
-            --set todoapp.secrets.DB_HOST="${{ secrets.DB_HOST }}" \
-            --set todoapp.image.version="${{ github.sha }}"
+          helm template ${{ inputs.helm-release-name }} ./todoapp-*.tgz \
+          -f ${{ inputs.helm-values-path}} \
+          --debug
 
       - name: Deploy Helm
         run: |
