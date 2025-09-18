@@ -49,12 +49,6 @@ jobs:
           resource-group: ${{ vars.AZURE_RESOURSE_GROUP }}
           cluster-name: ${{ vars.AZURE_CLUSTER_NAME }}
 
-      - name: Helm Dry Run / Validate
-        run: |
-          helm template ${{ inputs.helm-release-name }} ./todoapp-*.tgz \
-          -f ${{ inputs.helm-values-path}} \
-          --debug
-
       - name: Deploy Helm
         run: |
           helm upgrade --install --atomic --wait --timeout 3600s --debug ${{ inputs.helm-release-name }} ./todoapp-*.tgz \
